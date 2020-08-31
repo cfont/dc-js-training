@@ -143,9 +143,15 @@
       ];
 
       var facts = crossfilter(data);
+
+      var typeDimension = facts.dimension(function (d) {
+        console.log(d.type);
+        return d.type;
+      }); // dimension could be a field or a computed set of fields. mostly think of it as defining the x-axis
+
       // console.log(data);
       // console.log(facts);
-      print_filter("facts");
+      // print_filter("facts");
     </script>
   </body>
 </html>
