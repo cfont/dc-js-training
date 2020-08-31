@@ -150,6 +150,19 @@
       }); // dimension could be a field or a computed set of fields. mostly think of it as defining the x-axis
       var typeGroup = typeDimension.group();
 
+      dc.barChart("#chart")
+        .dimension(typeDimension)
+        .group(typeGroup)
+        .x(d3.scale.ordinal().domain(["cash", "tab", "visa"]))
+        .xUnits(dc.units.ordinal);
+      // scales map one set of value to another
+      // ordinal scale maps numbers to text (days of week or names of staff or whatever)
+      // linear scales is different. has min and max as values of domain
+      // domain is jurisdiction of data. list all types of data available and are probably the same as the keys in the key:value pairs
+
+      dc.renderAll();
+      // the above is the final command in any dc web page
+
       // console.log(data);
       // console.log(facts);
       print_filter("typeGroup");
