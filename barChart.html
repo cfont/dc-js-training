@@ -152,6 +152,11 @@
         return d.total;
       });
 
+      var totalDimension = facts.dimension(function (d) {
+        return d.total;
+      });
+      var totalGroup = totalDimension.group();
+
       dc.barChart("#chart")
         .width(1300)
         .height(200) // absolute pixels
@@ -176,7 +181,7 @@
 
       // console.log(data);
       // console.log(facts);
-      print_filter("typeGroup");
+      print_filter("totalGroup");
     </script>
   </body>
 </html>
