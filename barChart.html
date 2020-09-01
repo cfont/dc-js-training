@@ -155,7 +155,9 @@
         .group(typeGroup)
         .x(d3.scale.ordinal().domain(["cash", "tab", "visa"]))
         .xUnits(dc.units.ordinal)
-        .gap(10);
+        // .gap(10)
+        .barPadding(1); // percentage of bar width in decimal form
+      // .outpadding();
       // scales map one set of value to another
       // ordinal scale maps numbers to text (days of week or names of staff or whatever)
       // linear scales is different. has min and max as values of domain
