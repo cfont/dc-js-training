@@ -155,7 +155,9 @@
       var totalDimension = facts.dimension(function (d) {
         return d.total;
       });
-      var totalGroup = totalDimension.group();
+      var totalGroup = totalDimension.group(function (d) {
+        return Math.floor(d / 100) * 100; // creating broader buckets of data
+      });
 
       dc.barChart("#chart")
         .width(1300)
