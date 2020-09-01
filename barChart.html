@@ -148,13 +148,32 @@
         console.log(d.type);
         return d.type;
       }); // dimension could be a field or a computed set of fields. mostly think of it as defining the x-axis
-      var typeGroup = typeDimension.group();
+      var typeGroup = typeDimension.group().reduceSum(function (d) {
+        return d.total;
+      });
 
-      dc.barChart("#chart")
-        .dimension(typeDimension)
-        .group(typeGroup)
-        .x(d3.scale.ordinal().domain(["cash", "tab", "visa"]))
-        .xUnits(dc.units.ordinal);
+      var totalDimension = facts.dimension(function (d) {
+        return d.total;
+      });
+      var totalGroup = totalDimension.group(function (d) {
+        return Math.floor(d / 100) * 100; // creating broader buckets of data
+      });
+
+      var barChart = dc
+        .barChart("#chart")
+        .width(1300)
+        .height(200) // absolute pixels
+        // .margins({ top: 0, bottom: 0, right: 0, left: 0 })
+        .dimension(totalDimension)
+        .group(totalGroup)
+        .x(d3.scale.linear().domain([0, 400]))
+        // .centerBar(true) // ordinal sets this by default
+        .xUnits(dc.units.fp.precision(100));
+      // .gap(10)
+      // .barPadding(0.2) // percentage of bar width in decimal form. defines padding between bars
+      // .outerPadding(0) // defines padding outside of left and right most bars. defaults to 0.5
+      barChart.yAxis().ticks(5);
+      barChart.xAxis().ticks(4);
       // scales map one set of value to another
       // ordinal scale maps numbers to text (days of week or names of staff or whatever)
       // linear scales is different. has min and max as values of domain
@@ -166,7 +185,7 @@
 
       // console.log(data);
       // console.log(facts);
-      print_filter("typeGroup");
+      print_filter("totalGroup");
     </script>
   </body>
 </html>
