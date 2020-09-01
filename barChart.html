@@ -148,7 +148,9 @@
         console.log(d.type);
         return d.type;
       }); // dimension could be a field or a computed set of fields. mostly think of it as defining the x-axis
-      var typeGroup = typeDimension.group();
+      var typeGroup = typeDimension.group().reduceSum(function (d) {
+        return d.total;
+      });
 
       dc.barChart("#chart")
         .width(1300)
