@@ -151,9 +151,9 @@
       var typeGroup = typeDimension.group();
 
       dc.barChart("#chart")
-        .width(1000)
+        .width(1300)
         .height(200) // absolute pixels
-        .margins({ top: 0, bottom: 0, right: 0, left: 0 })
+        // .margins({ top: 0, bottom: 0, right: 0, left: 0 })
         .dimension(typeDimension)
         .group(typeGroup)
         .x(d3.scale.ordinal().domain(["cash", "tab", "visa"]))
