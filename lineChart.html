@@ -150,6 +150,10 @@
         },
       ];
 
+      data.forEach(function (d) {
+        return (d.date = new Date(d.date));
+      });
+
       var facts = crossfilter(data);
 
       var typeDimension = facts.dimension(function (d) {
@@ -194,7 +198,7 @@
       dc.renderAll();
       // the above is the final command in any dc web page
 
-      // console.log(data);
+      console.log(data);
       // console.log(facts);
       print_filter("totalGroup");
     </script>
