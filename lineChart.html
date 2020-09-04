@@ -166,6 +166,9 @@
       var totalGroup = totalDimension.group(function (d) {
         return Math.floor(d / 100) * 100; // creating broader buckets of data
       });
+      var dateDimension = facts.dimension(function (d) {
+        return d.date;
+      });
 
       var barChart = dc
         .lineChart("#chart")
