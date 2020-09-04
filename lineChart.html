@@ -173,6 +173,9 @@
       var dateDimension = facts.dimension(function (d) {
         return d.date;
       });
+      var dateGroup = dateDimension.group().reduceSum(function (d) {
+        return d.total;
+      });
 
       var barChart = dc
         .lineChart("#chart")
@@ -200,7 +203,7 @@
 
       console.log(data);
       // console.log(facts);
-      print_filter("totalGroup");
+      print_filter("dateGroup");
     </script>
   </body>
 </html>
