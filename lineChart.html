@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="EN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Line Chart</title>
+    <link rel="stylesheet" type="text/css" href="js-delivered/dc.css" />
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      div {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Line Chart: Total Payment Over Time</h2>
+    <div id="chart"></div>
+    <script type="text/javascript" src="js-delivered/d3.js"></script>
+    <script type="text/javascript" src="js-delivered/crossfilter.js"></script>
+    <script type="text/javascript" src="js-delivered/dc.js"></script>
+    <script>
+      document.write(
+        '<script src="http://' +
+          (location.host || "localhost").split(":")[0] +
+          ':35729/livereload.js?snipver=1"></' +
+          "script>"
+      );
+    </script>
+
+    <script type="text/javascript">
+      function print_filter(filter) {
+        var f = eval(filter);
+        if (typeof f.length != "undefined") {
+        } else {
+        }
+        if (typeof f.top != "undefined") {
+          f = f.top(Infinity);
+        } else {
+        }
+        if (typeof f.dimension != "undefined") {
+          f = f
+            .dimension(function (d) {
+              return "";
+            })
+            .top(Infinity);
+        } else {
+        }
+        console.log(
+          filter +
+            "(" +
+            f.length +
+            ") = " +
+            JSON.stringify(f)
+              .replace("[", "[\n\t")
+              .replace(/}\,/g, "},\n\t")
+              .replace("]", "\n]")
+        );
+      }
+
+      var data = [
+        {
+          date: "2011-11-14T16:17:54Z",
+          quantity: 2,
+          total: 190,
+          tip: 100,
+          type: "tab",
+        },
+        {
+          date: "2011-11-14T16:20:19Z",
+          quantity: 2,
+          total: 190,
+          tip: 100,
+          type: "tab",
+        },
+        {
+          date: "2011-11-14T16:28:54Z",
+          quantity: 1,
+          total: 300,
+          tip: 200,
+          type: "visa",
+        },
+        {
+          date: "2011-11-14T16:30:43Z",
+          quantity: 2,
+          total: 90,
+          tip: 0,
+          type: "tab",
+        },
+        {
+          date: "2011-11-14T16:48:46Z",
+          quantity: 2,
+          total: 90,
+          tip: 0,
+          type: "tab",
+        },
+        {
+          date: "2011-11-14T16:53:41Z",
+          quantity: 2,
+          total: 90,
+          tip: 0,
+          type: "tab",
+        },
+        {
+          date: "2011-11-14T16:54:06Z",
+          quantity: 1,
+          total: 100,
+          tip: 0,
+          type: "cash",
+        },
+        {
+          date: "2011-11-14T16:58:03Z",
+          quantity: 2,
+          total: 90,
+          tip: 0,
+          type: "tab",
+        },
+        {
+          date: "2011-11-14T17:07:21Z",
+          quantity: 2,
+          total: 90,
+          tip: 0,
+          type: "tab",
+        },
+        {
+          date: "2011-11-14T17:22:59Z",
+          quantity: 2,
+          total: 90,
+          tip: 0,
+          type: "tab",
+        },
+        {
+          date: "2011-11-14T17:25:45Z",
+          quantity: 2,
+          total: 200,
+          tip: 0,
+          type: "cash",
+        },
+        {
+          date: "2011-11-14T17:29:52Z",
+          quantity: 1,
+          total: 200,
+          tip: 100,
+          type: "visa",
+        },
+      ];
+
+      var facts = crossfilter(data);
+
+      var typeDimension = facts.dimension(function (d) {
+        console.log(d.type);
+        return d.type;
+      }); // dimension could be a field or a computed set of fields. mostly think of it as defining the x-axis
+      var typeGroup = typeDimension.group().reduceSum(function (d) {
+        return d.total;
+      });
+
+      var totalDimension = facts.dimension(function (d) {
+        return d.total;
+      });
+      var totalGroup = totalDimension.group(function (d) {
+        return Math.floor(d / 100) * 100; // creating broader buckets of data
+      });
+
+      var barChart = dc
+        .barChart("#chart")
+        .width(1300)
+        .height(200) // absolute pixels
+        // .margins({ top: 0, bottom: 0, right: 0, left: 0 })
+        .dimension(totalDimension)
+        .group(totalGroup)
+        .x(d3.scale.linear().domain([0, 400]))
+        // .centerBar(true) // ordinal sets this by default
+        .xUnits(dc.units.fp.precision(100));
+      // .gap(10)
+      // .barPadding(0.2) // percentage of bar width in decimal form. defines padding between bars
+      // .outerPadding(0) // defines padding outside of left and right most bars. defaults to 0.5
+      barChart.yAxis().ticks(5);
+      barChart.xAxis().ticks(4);
+      // scales map one set of value to another
+      // ordinal scale maps numbers to text (days of week or names of staff or whatever)
+      // linear scales is different. has min and max as values of domain
+      // domain is jurisdiction of data. list all types of data available and are probably the same as the keys in the key:value pairs
+      // in this bit of code we didn't define a y scale. dc defaulted to liner scale for y-axis with tick marks, blue colors, and 2px gap between bars. the height of the chart is defaulted to 200.
+
+      dc.renderAll();
+      // the above is the final command in any dc web page
+
+      // console.log(data);
+      // console.log(facts);
+      print_filter("totalGroup");
+    </script>
+  </body>
+</html>
