@@ -197,6 +197,7 @@
         .dimension(dateDimension)
         .group(dateGroup)
         .yAxisLabel("Transaction Spend")
+        .renderHorizontalGridLines(true)
         .x(d3.time.scale().domain([minDate, maxDate]));
       // .centerBar(true) // ordinal sets this by default
       // .xUnits(dc.units.fp.precision(100));
