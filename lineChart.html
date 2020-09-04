@@ -186,8 +186,8 @@
         return d.total;
       });
 
-      var minDate = new Date("2011-11-14T16:17:54Z");
-      var maxDate = new Date("2011-11-14T17:29:52Z");
+      var minDate = dateDimension.bottom(1)[0].date;
+      var maxDate = dateDimension.top(1)[0].date;
 
       var barChart = dc
         .lineChart("#chart")
