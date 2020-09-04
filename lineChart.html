@@ -193,9 +193,10 @@
         .lineChart("#chart")
         .width(1000)
         .height(200) // absolute pixels
-        .margins({ top: 10, bottom: 30, right: 10, left: 50 })
+        .margins({ top: 10, bottom: 30, right: 10, left: 70 })
         .dimension(dateDimension)
         .group(dateGroup)
+        .yAxisLabel("Transaction Spend")
         .x(d3.time.scale().domain([minDate, maxDate]));
       // .centerBar(true) // ordinal sets this by default
       // .xUnits(dc.units.fp.precision(100));
