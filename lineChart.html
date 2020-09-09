@@ -185,6 +185,9 @@
       var dateGroup = dateDimension.group().reduceSum(function (d) {
         return d.total;
       });
+      var dateGroupTip = dateDimension.group().reduceSum(function (d) {
+        return d.tip;
+      });
 
       var minDate = dateDimension.bottom(1)[0].date;
       var maxDate = dateDimension.top(1)[0].date;
@@ -195,7 +198,8 @@
         .height(200) // absolute pixels
         .margins({ top: 10, bottom: 30, right: 10, left: 70 })
         .dimension(dateDimension)
-        .group(dateGroup)
+        .group(dateGroup, "total spend")
+        .stack(dateGroupTip, "tip")
         .yAxisLabel("Transaction Spend")
         .renderHorizontalGridLines(true)
         .renderArea(true)
