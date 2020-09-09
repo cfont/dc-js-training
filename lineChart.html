@@ -203,6 +203,7 @@
         .yAxisLabel("Transaction Spend")
         .renderHorizontalGridLines(true)
         .renderArea(true)
+        .legend(dc.legend().x(800).y(5).itemHeight(12).gap(5))
         .x(d3.time.scale().domain([minDate, maxDate]));
       // .centerBar(true) // ordinal sets this by default
       // .xUnits(dc.units.fp.precision(100));
