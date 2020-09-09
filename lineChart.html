@@ -28,7 +28,7 @@
     </style>
   </head>
   <body>
-    <h2>Line Chart: Total Payment Over Time</h2>
+    <h2>Line Chart: Total Payment Plus Tip</h2>
     <div id="chart"></div>
     <script type="text/javascript" src="js-delivered/d3.js"></script>
     <script type="text/javascript" src="js-delivered/crossfilter.js"></script>
@@ -185,6 +185,9 @@
       var dateGroup = dateDimension.group().reduceSum(function (d) {
         return d.total;
       });
+      var dateGroupTip = dateDimension.group().reduceSum(function (d) {
+        return d.tip;
+      });
 
       var minDate = dateDimension.bottom(1)[0].date;
       var maxDate = dateDimension.top(1)[0].date;
@@ -195,10 +198,12 @@
         .height(200) // absolute pixels
         .margins({ top: 10, bottom: 30, right: 10, left: 70 })
         .dimension(dateDimension)
-        .group(dateGroup)
+        .group(dateGroup, "total spend")
+        .stack(dateGroupTip, "tip")
         .yAxisLabel("Transaction Spend")
         .renderHorizontalGridLines(true)
         .renderArea(true)
+        .legend(dc.legend().x(800).y(5).itemHeight(12).gap(5))
         .x(d3.time.scale().domain([minDate, maxDate]));
       // .centerBar(true) // ordinal sets this by default
       // .xUnits(dc.units.fp.precision(100));
